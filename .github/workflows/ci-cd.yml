@@ -1,0 +1,58 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: formflow-frontend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install
+      - name: Lint
+        run: npm run lint
+      # - name: Test
+      #   run: npm test
+      - name: Build
+        run: npm run build
+
+  build-and-test-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: formflow-backend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install
+      # - name: Test
+      #   run: npm test
+
+  # Uncomment and configure this job if you want to deploy to Vercel
+  # deploy:
+  #   needs: build-and-test-frontend
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Deploy to Vercel
+  #       uses: amondnet/vercel-action@v25
+  #       with:
+  #         vercel-token: ${{ secrets.VERCEL_TOKEN }}
+  #         vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+  #         vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+  #         working-directory: ./formflow-frontend
