@@ -25,7 +25,7 @@ function App() {
         name: nameRef.current.value,
         email: emailRef.current.value,
       }
-      const res = await fetch('http://localhost:3000/submit', {
+      const res = await fetch('https://formflow-backend.onrender.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
